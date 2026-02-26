@@ -1,0 +1,577 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  overflow: hidden;
+  background: #0a0a1a;
+  font-family: 'Outfit', system-ui, sans-serif;
+  color: #e0e0e0;
+}
+
+#app {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#app canvas {
+  display: block;
+}
+
+#ui-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10;
+}
+
+#ui-overlay > * {
+  pointer-events: auto;
+}
+
+/* Screen base */
+.screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.3s ease;
+}
+
+.screen.hidden {
+  opacity: 0;
+  pointer-events: none !important;
+}
+
+/* Title text */
+.title {
+  font-family: 'Bangers', cursive;
+  font-size: 4rem;
+  letter-spacing: 0.05em;
+  text-shadow: 0 0 20px rgba(0, 229, 255, 0.5), 0 4px 0 #1a1a2e;
+  color: #00e5ff;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  font-family: 'Bangers', cursive;
+  font-size: 1.8rem;
+  color: #ff6b35;
+  text-shadow: 0 0 10px rgba(255, 107, 53, 0.4);
+  margin-bottom: 2rem;
+}
+
+/* Buttons */
+.btn {
+  font-family: 'Bangers', cursive;
+  font-size: 1.6rem;
+  letter-spacing: 0.05em;
+  padding: 0.8rem 2.5rem;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+.btn:hover {
+  transform: scale(1.05);
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #ff6b35, #ff8f35);
+  box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);
+}
+
+.btn-primary:hover {
+  box-shadow: 0 6px 20px rgba(255, 107, 53, 0.6);
+}
+
+.btn-secondary {
+  background: linear-gradient(135deg, #00e5ff, #00b8d4);
+  box-shadow: 0 4px 15px rgba(0, 229, 255, 0.3);
+}
+
+.btn-secondary:hover {
+  box-shadow: 0 6px 20px rgba(0, 229, 255, 0.5);
+}
+
+.btn-success {
+  background: linear-gradient(135deg, #76ff03, #64dd17);
+  box-shadow: 0 4px 15px rgba(118, 255, 3, 0.3);
+  color: #1a1a2e;
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, #e040fb, #d500f9);
+  box-shadow: 0 4px 15px rgba(224, 64, 251, 0.3);
+}
+
+/* Selection cards */
+.card-grid {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 900px;
+  padding: 1rem;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 1.2rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  text-align: center;
+  width: 180px;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  border-color: #00e5ff;
+  box-shadow: 0 0 20px rgba(0, 229, 255, 0.3);
+}
+
+.card.selected {
+  border-color: #ff6b35;
+  box-shadow: 0 0 25px rgba(255, 107, 53, 0.4);
+  background: rgba(255, 107, 53, 0.1);
+}
+
+.card-name {
+  font-family: 'Bangers', cursive;
+  font-size: 1.3rem;
+  margin-top: 0.5rem;
+  color: #fff;
+}
+
+.card-desc {
+  font-size: 0.85rem;
+  color: #aaa;
+  margin-top: 0.3rem;
+}
+
+/* Difficulty buttons */
+.difficulty-grid {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.difficulty-btn {
+  width: 200px;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  text-align: center;
+  color: #e0e0e0;
+}
+
+.difficulty-btn:hover {
+  transform: translateY(-4px);
+}
+
+.difficulty-btn .diff-label {
+  font-family: 'Bangers', cursive;
+  font-size: 1.5rem;
+  display: block;
+}
+
+.difficulty-btn .diff-desc {
+  font-size: 0.85rem;
+  color: #aaa;
+  margin-top: 0.3rem;
+  display: block;
+}
+
+.difficulty-btn.easy {
+  border-color: #76ff03;
+}
+.difficulty-btn.easy:hover {
+  box-shadow: 0 0 20px rgba(118, 255, 3, 0.4);
+}
+
+.difficulty-btn.medium {
+  border-color: #ff6b35;
+}
+.difficulty-btn.medium:hover {
+  box-shadow: 0 0 20px rgba(255, 107, 53, 0.4);
+}
+
+.difficulty-btn.hard {
+  border-color: #e040fb;
+}
+.difficulty-btn.hard:hover {
+  box-shadow: 0 0 20px rgba(224, 64, 251, 0.4);
+}
+
+/* Game HUD */
+.hud {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(180deg, rgba(10, 10, 26, 0.8) 0%, transparent 100%);
+}
+
+.hud-score {
+  font-family: 'Bangers', cursive;
+  font-size: 1.4rem;
+  display: flex;
+  gap: 2rem;
+}
+
+.score-black, .score-white {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.score-disc {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.score-disc.black {
+  background: #2a2a4e;
+  border: 2px solid #666;
+  box-shadow: 0 0 4px rgba(100, 100, 150, 0.5);
+}
+
+.score-disc.white {
+  background: #e8e8e8;
+  border: 2px solid #ccc;
+  box-shadow: 0 0 4px rgba(200, 200, 200, 0.5);
+}
+
+.score-label {
+  font-size: 0.85rem;
+  color: #aaa;
+  font-family: 'Outfit', sans-serif;
+}
+
+.turn-indicator {
+  font-family: 'Bangers', cursive;
+  font-size: 1.2rem;
+  color: #00e5ff;
+  text-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
+}
+
+.hud-menu-btn {
+  font-family: 'Bangers', cursive;
+  font-size: 1rem;
+  padding: 0.4rem 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: #e0e0e0;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.hud-menu-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Game over overlay */
+.game-over-overlay {
+  background: rgba(10, 10, 26, 0.9);
+}
+
+.game-over-text {
+  font-family: 'Bangers', cursive;
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.game-over-text.win {
+  color: #76ff03;
+  text-shadow: 0 0 30px rgba(118, 255, 3, 0.6);
+}
+
+.game-over-text.lose {
+  color: #ff1744;
+  text-shadow: 0 0 30px rgba(255, 23, 68, 0.6);
+}
+
+.game-over-text.draw {
+  color: #ff6b35;
+  text-shadow: 0 0 30px rgba(255, 107, 53, 0.6);
+}
+
+.game-over-score {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  color: #aaa;
+}
+
+.game-over-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+/* Map preview (legacy) */
+.map-preview {
+  width: 120px;
+  height: 80px;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+}
+
+/* Map selector cards */
+.map-card-grid {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 950px;
+  padding: 1rem;
+}
+
+.map-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 2px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 0.8rem;
+  cursor: pointer;
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  text-align: center;
+  width: 200px;
+  overflow: hidden;
+}
+
+.map-card:hover {
+  transform: translateY(-6px) scale(1.03);
+  border-color: #00e5ff;
+  box-shadow: 0 0 25px rgba(0, 229, 255, 0.35), 0 8px 30px rgba(0, 0, 0, 0.3);
+}
+
+.map-card-preview {
+  width: 100%;
+  height: 130px;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 0.6rem;
+  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+.map-card-info {
+  padding: 0 0.2rem;
+}
+
+.map-card-name {
+  font-family: 'Bangers', cursive;
+  font-size: 1.4rem;
+  color: #fff;
+  margin-bottom: 0.2rem;
+}
+
+.map-card-desc {
+  font-size: 0.85rem;
+  color: #999;
+}
+
+/* Robot preview in card */
+.robot-preview {
+  width: 100px;
+  height: 120px;
+  margin: 0 auto;
+}
+
+/* Section label */
+.section-label {
+  font-family: 'Bangers', cursive;
+  font-size: 2rem;
+  color: #00e5ff;
+  text-shadow: 0 0 10px rgba(0, 229, 255, 0.3);
+  margin-bottom: 1.5rem;
+}
+
+/* Back button */
+.back-btn {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  font-family: 'Bangers', cursive;
+  font-size: 1.1rem;
+  padding: 0.4rem 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: #e0e0e0;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.back-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Robot display overlay */
+.robot-display {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.robot-canvas {
+  position: fixed;
+  bottom: 0;
+  width: 170px;
+  height: 200px;
+  image-rendering: auto;
+  filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.5));
+}
+
+.robot-canvas.robot-left {
+  left: 10px;
+}
+
+.robot-canvas.robot-right {
+  right: 10px;
+}
+
+.robot-label {
+  position: fixed;
+  bottom: 200px;
+  font-family: 'Bangers', cursive;
+  font-size: 1.1rem;
+  color: #fff;
+  text-shadow: 0 0 10px rgba(0, 229, 255, 0.5), 0 2px 4px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  pointer-events: none;
+}
+
+.robot-label-left {
+  left: 10px;
+  width: 170px;
+}
+
+.robot-label-right {
+  right: 10px;
+  width: 170px;
+}
+
+/* Main menu buttons */
+.menu-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+}
+
+/* Tutorial screen */
+.tutorial-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 420px;
+  width: 90%;
+}
+
+.tutorial-header {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.tutorial-title {
+  font-family: 'Bangers', cursive;
+  font-size: 2rem;
+  color: #00e5ff;
+  text-shadow: 0 0 15px rgba(0, 229, 255, 0.4);
+  margin-bottom: 0.5rem;
+}
+
+.tutorial-progress {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.tut-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+
+.tut-dot.active {
+  background: #00e5ff;
+  border-color: #00e5ff;
+  box-shadow: 0 0 8px rgba(0, 229, 255, 0.6);
+}
+
+.tut-dot.done {
+  background: rgba(0, 229, 255, 0.4);
+  border-color: rgba(0, 229, 255, 0.5);
+}
+
+.tutorial-canvas-wrap {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 12px;
+  margin-bottom: 1.2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.tutorial-canvas-wrap canvas {
+  display: block;
+  border-radius: 8px;
+}
+
+.tutorial-text {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #ccc;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  min-height: 4.5em;
+}
+
+.tutorial-nav {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.tutorial-nav-btn {
+  min-width: 120px;
+}
