@@ -14,7 +14,7 @@ export const JUNKYARD_MAP: BoardMap = {
   validMoveColor: 0xff6d00,
   backgroundColor: 0x1a1008,
   lightColor: 0xffcc80,
-  lightIntensity: 1.1,
-  ambientColor: 0x3e2723,
-  ambientIntensity: 0.5,
+  lightIntensity: 1.2,
+  ambientColor: 0x4e3728,
+  ambientIntensity: 0.55,
 };

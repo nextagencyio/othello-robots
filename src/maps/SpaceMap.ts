@@ -12,9 +12,9 @@ export const SPACE_MAP: BoardMap = {
   borderRoughness: 0.3,
   highlightColor: 0xffd740,
   validMoveColor: 0x7c4dff,
-  backgroundColor: 0x000011,
+  backgroundColor: 0x020824,
   lightColor: 0xc5cae9,
-  lightIntensity: 0.9,
-  ambientColor: 0x1a1a4e,
-  ambientIntensity: 0.3,
+  lightIntensity: 1.1,
+  ambientColor: 0x283060,
+  ambientIntensity: 0.45,
 };

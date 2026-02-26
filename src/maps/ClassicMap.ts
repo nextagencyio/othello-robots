@@ -13,8 +13,8 @@ export const CLASSIC_MAP: BoardMap = {
   highlightColor: 0xffff00,
   validMoveColor: 0x66bb6a,
   backgroundColor: 0x1a1a2e,
-  lightColor: 0xfff8e1,
-  lightIntensity: 1.0,
-  ambientColor: 0x404040,
-  ambientIntensity: 0.6,
+  lightColor: 0xfff3d4,
+  lightIntensity: 1.2,
+  ambientColor: 0x5a4a3a,
+  ambientIntensity: 0.7,
 };
