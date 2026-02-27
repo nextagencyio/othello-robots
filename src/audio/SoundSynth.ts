@@ -132,6 +132,29 @@ export class SoundSynth {
     lfo.stop(now + 0.85);
   }
 
+  playDraw(): void {
+    const ctx = this.audio.getContext();
+    const now = ctx.currentTime;
+
+    // Neutral chord that resolves ambiguously
+    const notes = [330, 392, 440]; // E4, G4, A4
+    notes.forEach((freq, i) => {
+      const osc = ctx.createOscillator();
+      osc.type = 'triangle';
+      osc.frequency.value = freq;
+
+      const gain = ctx.createGain();
+      const start = now + i * 0.08;
+      gain.gain.setValueAtTime(0, start);
+      gain.gain.linearRampToValueAtTime(0.12, start + 0.03);
+      gain.gain.exponentialRampToValueAtTime(0.001, start + 0.6);
+
+      osc.connect(gain).connect(this.audio.getMasterGain());
+      osc.start(start);
+      osc.stop(start + 0.65);
+    });
+  }
+
   playMenuClick(): void {
     const ctx = this.audio.getContext();
     const now = ctx.currentTime;

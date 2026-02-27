@@ -453,6 +453,8 @@ export class GameController {
       this.robotDisplay?.aiAnimator.triggerVictory();
       this.robotDisplay?.playerAnimator.triggerSad();
       this.soundSynth.playDefeat();
+    } else {
+      this.soundSynth.playDraw();
     }
 
     // Remove input listeners
