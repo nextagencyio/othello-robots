@@ -51,6 +51,7 @@ export class GameController {
 
   // Selections
   private selectedRobot: Robot | null = null;
+  private aiRobot: Robot | null = null;
   private selectedDifficulty: Difficulty | null = null;
   private selectedMap: BoardMap | null = null;
 
@@ -82,13 +83,12 @@ export class GameController {
       // Periodic idle robot chatter during gameplay
       if (this.phase === GamePhase.Playing && elapsed > this.nextChatterTime) {
         this.nextChatterTime = elapsed + 8 + Math.random() * 12; // 8-20 seconds
-        const pitch = this.selectedRobot?.voicePitch ?? 1.0;
         // Randomly pick player or AI robot to chatter
         if (Math.random() > 0.5) {
-          this.soundSynth.playRobotChatter(pitch);
+          this.soundSynth.playRobotChatter(this.aiRobot?.voicePitch ?? 1.0);
           this.robotDisplay?.aiAnimator.triggerChatter(0.3);
         } else {
-          this.soundSynth.playRobotChatter(1.0);
+          this.soundSynth.playRobotChatter(this.selectedRobot?.voicePitch ?? 1.0);
           this.robotDisplay?.playerAnimator.triggerChatter(0.3);
         }
       }
@@ -197,8 +197,11 @@ export class GameController {
     this.uiManager.hideCurrentScreen();
 
     const map = this.selectedMap!;
-    const robot = this.selectedRobot!;
+    const playerRobot = this.selectedRobot!;
     const difficulty = this.selectedDifficulty!;
+
+    // Pick a random robot for the AI opponent (distinct from player)
+    this.aiRobot = this.getAIRobot(playerRobot);
 
     // Apply map theme to scene
     this.sceneManager.applyMap(map);
@@ -210,11 +213,8 @@ export class GameController {
     // Create piece renderer
     this.pieceRenderer = new PieceRenderer(this.sceneManager.scene);
 
-    // Pick a random robot for the player side (distinct from AI robot)
-    const playerRobot = this.getPlayerRobot(robot);
-
     // Create robot display (HTML overlay at bottom of screen)
-    this.robotDisplay = new RobotDisplay(playerRobot, robot);
+    this.robotDisplay = new RobotDisplay(playerRobot, this.aiRobot);
 
     // Create game state
     this.gameState = new GameState();
@@ -237,7 +237,7 @@ export class GameController {
     // Show HUD
     this.gameHUD = new GameHUD(() => {
       this.showMainMenu();
-    }, robot.name);
+    }, this.aiRobot!.name);
     this.gameHUD.show(document.getElementById('ui-overlay')!);
     this.updateHUD();
 
@@ -253,9 +253,9 @@ export class GameController {
     this.sceneManager.renderer.domElement.addEventListener('mousemove', this.boundMouseMove);
   }
 
-  private getPlayerRobot(aiRobot: Robot): Robot {
-    // Pick a random different robot for the player
-    const otherRobots = ROBOTS.filter((r) => r.id !== aiRobot.id);
+  private getAIRobot(playerRobot: Robot): Robot {
+    // Pick a random different robot for the AI opponent
+    const otherRobots = ROBOTS.filter((r) => r.id !== playerRobot.id);
     return otherRobots[Math.floor(Math.random() * otherRobots.length)];
   }
 
@@ -374,7 +374,7 @@ export class GameController {
     await this.delay(delay);
 
     // Robot chatter (AI thinking)
-    this.soundSynth.playRobotChatter(this.selectedRobot?.voicePitch ?? 1.0);
+    this.soundSynth.playRobotChatter(this.aiRobot?.voicePitch ?? 1.0);
     this.robotDisplay?.aiAnimator.triggerChatter(0.4);
 
     await this.delay(200);

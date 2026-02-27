@@ -30,7 +30,7 @@ export class RobotSelectScreen implements Screen {
 
     this.element.innerHTML = `
       <button class="back-btn" id="back-btn">&larr; Back</button>
-      <div class="section-label">Choose Your Opponent</div>
+      <div class="section-label">Choose Your Character</div>
       <div class="card-grid">${cardsHtml}</div>
     `;
 
