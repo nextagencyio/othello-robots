@@ -69,9 +69,17 @@ export class GameState {
         this.endGame();
         return;
       }
-      // Pass back
+      // Pass back to previous player
       this.currentPlayer =
         this.currentPlayer === CellState.Black ? CellState.White : CellState.Black;
+
+      // If they also have no moves, game is over
+      if (this.getValidMovesForCurrent().length === 0) {
+        this.consecutivePasses++;
+        this.endGame();
+      }
+    } else {
+      this.consecutivePasses = 0;
     }
   }
 
