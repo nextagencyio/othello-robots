@@ -8,8 +8,6 @@ interface TutorialStep {
 
 // Mini-board drawing helpers
 const CELL = 32;
-const BOARD_X_OFF = 0;
-const BOARD_Y_OFF = 0;
 
 function drawMiniBoard(
   ctx: CanvasRenderingContext2D,
