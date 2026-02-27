@@ -9,9 +9,9 @@ export const DISC_SEGMENTS = 32;
 export const BOARD_OFFSET = (BOARD_SIZE - 1) / 2; // 3.5
 
 export const COLORS = {
-  black: 0x1a1a2e,
+  black: 0x2a2a4e,
   white: 0xe8e8e8,
-  blackEdge: 0x2a2a4e,
+  blackEdge: 0x3a3a6e,
   whiteEdge: 0xcccccc,
 } as const;
 

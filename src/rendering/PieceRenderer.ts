@@ -38,16 +38,18 @@ export class PieceRenderer {
 
     this.blackMaterial = new THREE.MeshStandardMaterial({
       color: COLORS.black,
-      roughness: 0.4,
-      metalness: 0.3,
-      emissive: 0x222244,
-      emissiveIntensity: 0.3,
+      roughness: 0.3,
+      metalness: 0.4,
+      emissive: 0x4444aa,
+      emissiveIntensity: 0.4,
     });
 
     this.whiteMaterial = new THREE.MeshStandardMaterial({
       color: COLORS.white,
       roughness: 0.3,
       metalness: 0.2,
+      emissive: 0xffffff,
+      emissiveIntensity: 0.1,
     });
   }
 

@@ -264,9 +264,9 @@ body {
 }
 
 .score-disc.black {
-  background: #2a2a4e;
-  border: 2px solid #666;
-  box-shadow: 0 0 4px rgba(100, 100, 150, 0.5);
+  background: #3a3a6e;
+  border: 2px solid #6666aa;
+  box-shadow: 0 0 6px rgba(68, 68, 170, 0.6);
 }
 
 .score-disc.white {
