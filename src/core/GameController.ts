@@ -379,7 +379,10 @@ export class GameController {
 
     await this.delay(200);
 
-    const move = this.aiPlayer.pickMove(this.gameState.board, CellState.White);
+    // Yield to event loop before heavy computation so UI stays responsive
+    const move = await new Promise<ReturnType<typeof this.aiPlayer.pickMove>>(resolve => {
+      setTimeout(() => resolve(this.aiPlayer!.pickMove(this.gameState!.board, CellState.White)), 0);
+    });
     const result = this.gameState.makeMove(move.row, move.col);
 
     if (!result) {

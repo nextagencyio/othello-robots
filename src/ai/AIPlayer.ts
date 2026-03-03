@@ -20,7 +20,7 @@ export class AIPlayer {
         this.strategy = new GreedyStrategy();
         break;
       case Difficulty.Hard:
-        this.strategy = new MinimaxStrategy(5);
+        this.strategy = new MinimaxStrategy(4);
         break;
     }
   }
